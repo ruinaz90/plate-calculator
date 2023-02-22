@@ -46,7 +46,7 @@ export default function Home() {
 
     function handleSubmit(e) {
         e.preventDefault()
-        const plateList = calculatePlate(weight, {set: platesAvailable}, {availablePlates: plates})
+        const plateList = calculatePlate(weight, {set: platesAvailable, availablePlates: plates})
         setResultsWeight(plateList.closestWeight)
 
         if(plateList.plates[0]) {
