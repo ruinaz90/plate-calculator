@@ -21,9 +21,11 @@ import { useState } from 'react'
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
+    const [platesAvailable, setPlatesAvailable] = useState([5, 10, 25, 35, 45])
     const [plates, setPlates] = useState({
         5: 4,
         10: 4,
+        25: 4,
         35: 4,
         45: 4
     })
@@ -34,13 +36,16 @@ export default function Home() {
 
     function handleChange(e) {
         const weight = Number(e.target.id), plateAmount = Number(e.target.value)
+        if(!platesAvailable.includes(weight))
+            setPlatesAvailable([...platesAvailable, weight])
+        if(plateAmount == 0)
+            setPlatesAvailable([...platesAvailable].filter(element => element !== weight))
         setPlates({...plates, [weight]: plateAmount})
-        console.log(plates)
     }
 
     function handleSubmit(e) {
         e.preventDefault()
-        const plateList = calculatePlate(weight, {weightLimits: plates})
+        const plateList = calculatePlate(weight, {set: platesAvailable}, {weightLimits: plates})
         setResultsWeight(plateList.closestWeight)
 
         if(plateList.plates[0]) {
