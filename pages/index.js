@@ -72,9 +72,9 @@ export default function Home() {
 
         <main>
         <Container maxWidth="xs">
-            <Card>
+            <Card sx={{ mb: 2 }}>
             <CardContent>
-                <Box sx={{ mb: 3, mx: 2 }}>
+                <Box sx={{ my: 2, mx: 2 }}>
                     <Typography variant="h4" gutterBottom>Calculate</Typography>
                     <Typography color="text.secondary" variant="body2" gutterBottom>Enter target weight and click CALCULATE.</Typography>
                 </Box>
@@ -90,8 +90,12 @@ export default function Home() {
                     <Typography variant="h5" gutterBottom>Plates needed</Typography>
                     {results.length ? results.map((element, index) => <Typography variant="body1" key={index}>{element} lbs x {resultsQty[index]}</Typography>) : <Typography variant="body1">None</Typography>}
                     </Box>
+                </CardContent>
+                </Card>
 
-                <Box sx={{ mb: 3, mx: 2 }}>
+            <Card>
+            <CardContent>
+                <Box sx={{ my: 3, mx: 2 }}>
                     <Typography variant="h4" gutterBottom>Plates</Typography>
                     <Typography color="text.secondary" variant="body2" gutterBottom>Enter the number of plates available.</Typography>
                 </Box>
