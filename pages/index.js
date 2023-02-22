@@ -30,6 +30,7 @@ export default function Home() {
         45: 4
     })
     const [weight, setWeight] = useState(45)
+    const [barbell, setBarbell] = useState(45)
     const [resultsWeight, setResultsWeight] = useState(45)
     const [results, setResults] = useState([])
     const [resultsQty, setResultsQty] = useState([])
