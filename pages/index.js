@@ -21,11 +21,21 @@ import { useState } from 'react'
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
-    const [plates, setPlates] = useState([5, 10])
+    const [plates, setPlates] = useState({
+        5: 4,
+        10: 4,
+        35: 4,
+        45: 4
+    })
     const [weight, setWeight] = useState(45)
     const [resultsWeight, setResultsWeight] = useState(45)
     const [results, setResults] = useState([])
     const [resultsQty, setResultsQty] = useState([])
+
+    function handleChange(e) {
+        const weight = Number(e.target.id), plateAmount = Number(e.target.value)
+        setPlates({...plates, [weight]: plateAmount})
+    }
 
     return (
         <>
@@ -40,7 +50,7 @@ export default function Home() {
         <Container maxWidth="xs">
             <Card>
             <CardContent>
-                <Box sx={{ m: 3, mx: 2 }}><TextField sx={{ width: '20ch' }} label="Target weight (lbs)" variant="outlined" type="number" value={weight} onChange={(e) => setWeight(e.target.value)} /></Box>
+                <Box sx={{ m: 3, mx: 2 }}><TextField sx={{ width: '20ch' }} label="Target weight (lbs)" variant="outlined" type="number" value={weight} onChange={(e) => setWeight(Number(e.target.value))} /></Box>
                 <Box sx={{ mb: 3, mx: 2 }}><Button variant="contained">Calculate</Button></Box>
 
 
@@ -59,13 +69,13 @@ export default function Home() {
                 <Box sx={{ m: 2 }}>
                     <Grid container spacing={2}>
                         <Grid xs display="flex" justifyContent="center" alignItems="center"><Typography variant="body1" gutterBottom>5</Typography></Grid>
-                        <Grid xs display="flex" justifyContent="center" alignItems="center"><TextField type="number" variant="outlined" /></Grid>
+                        <Grid xs display="flex" justifyContent="center" alignItems="center"><TextField type="number" variant="outlined" id="5" placeholder="4" onChange={handleChange} /></Grid>
                     </Grid>
                 </Box>
                 <Box sx={{ m: 2 }}>
                     <Grid container spacing={2}>
                         <Grid xs display="flex" justifyContent="center" alignItems="center"><Typography variant="body1" gutterBottom>10</Typography></Grid>
-                        <Grid xs display="flex" justifyContent="center" alignItems="center"><TextField type="number" variant="outlined" /></Grid>
+                        <Grid xs display="flex" justifyContent="center" alignItems="center"><TextField type="number" variant="outlined" id="10" placeholder="4" onChange={handleChange} /></Grid>
                     </Grid>
                 </Box>
             </CardContent>
