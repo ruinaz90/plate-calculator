@@ -1,7 +1,6 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import { Inter } from '@next/font/google'
-import styles from '@/styles/Home.module.css'
 import { calculate as calculatePlate } from '@/public/plate-calculator'
 
 import FormGroup from '@mui/material/FormGroup'
@@ -13,44 +12,20 @@ import Typography from '@mui/material/Typography'
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 import Container from '@mui/material/Container'
+import Grid from '@mui/material/Unstable_Grid2'
+import Divider from '@mui/material/Divider'
+import Box from '@mui/material/Box'
 
 import { useState } from 'react'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
-    const [plates, setPlates] = useState([5, 10, 25, 35, 45])
+    const [plates, setPlates] = useState([5, 10])
     const [weight, setWeight] = useState(45)
     const [resultsWeight, setResultsWeight] = useState(45)
     const [results, setResults] = useState([])
     const [resultsQty, setResultsQty] = useState([])
-
-    function handleChange(e) {
-        const { value, checked } = e.target
-        const plateVal = Number(value)
-
-        if(checked)
-            setPlates([...plates, plateVal])
-        else
-            setPlates(plates.filter(element => element !== plateVal))
-    }
-
-    function handleSubmit(e) {
-        e.preventDefault()
-        const plateList = calculatePlate(weight, {set: plates})
-        setResultsWeight(plateList.closestWeight)
-
-        if(plateList.plates[0]) {
-            let platesNeeded = plateList.plates.map(plate => plate.plateWeight)
-            let platesQty = plateList.plates.map(plate => plate.qty)
-            setResults(platesNeeded)
-            setResultsQty(platesQty)
-        }
-        else {
-            setResults([])
-            setResultsQty([])
-        }
-    }
 
     return (
         <>
@@ -58,28 +33,41 @@ export default function Home() {
             <title>Plate Calculator</title>
             <meta name="description" content="Calculate plates needed" />
             <meta name="viewport" content="width=device-width, initial-scale=1" />
-            {/*<link rel="icon" href="/favicon.ico" />*/}
+            <link rel="icon" href="/favicon.ico" />
         </Head>
-        <main className={styles.main}>
-        <Container maxWidth="sm">
-            <Card sx={{ minWidth: 275 }}>
-            <CardContent>
-                <FormGroup>
-                    <FormControlLabel control={<Checkbox />} label="2.5 lbs" onChange={handleChange} value="2.5" />
-                    <FormControlLabel control={<Checkbox defaultChecked />} label="5 lbs" onChange={handleChange} value="5" />
-                    <FormControlLabel control={<Checkbox defaultChecked />} label="10 lbs" onChange={handleChange} value="10" />
-                    <FormControlLabel control={<Checkbox defaultChecked />} label="25 lbs" onChange={handleChange} value="25" />
-                    <FormControlLabel control={<Checkbox defaultChecked />} label="35 lbs" onChange={handleChange} value="35" />
-                    <FormControlLabel control={<Checkbox defaultChecked />} label="45 lbs" onChange={handleChange} value="45" />
-                    <TextField sx={{ m: 1, width: '25ch' }} label="Weight (lbs)" variant="standard" type="number" value={weight} onChange={(e) => setWeight(e.target.value)} />
-                    <Button variant="contained" onClick={handleSubmit}>Calculate</Button>
-                </FormGroup>
 
-                <Typography variant="h5">Closest weight</Typography>
-                <Typography variant="body1">{resultsWeight} lbs</Typography>
+        <main>
+        <Container maxWidth="xs">
+            <Card>
+            <CardContent>
+                <Box sx={{ m: 3, mx: 2 }}><TextField sx={{ width: '20ch' }} label="Target weight (lbs)" variant="outlined" type="number" value={weight} onChange={(e) => setWeight(e.target.value)} /></Box>
+                <Box sx={{ mb: 3, mx: 2 }}><Button variant="contained">Calculate</Button></Box>
+
+
+                <Box sx={{ mb: 3, mx: 2 }}>
+                    <Typography variant="h4" gutterBottom>Plates</Typography>
+                    <Typography color="text.secondary" variant="body2" gutterBottom>Enter the number of plates available.</Typography>
+                </Box>
                 
-                <Typography variant="h5">Plates needed</Typography>
-                <div>{results.length ? results.map((element, index) => <Typography variant="body1" key={index}>{element} lbs x {resultsQty[index]}</Typography>) : <Typography variant="body1">None</Typography>}</div>
+                <Grid container spacing={2}>
+                    <Grid xs display="flex" justifyContent="center" alignItems="center"><Typography variant="h6" gutterBottom>Weight (lbs)</Typography></Grid>
+                    <Grid xs display="flex" justifyContent="center" alignItems="center"><Typography variant="h6" gutterBottom>Available</Typography></Grid>
+                </Grid>
+
+                <Divider variant="middle" />
+
+                <Box sx={{ m: 2 }}>
+                    <Grid container spacing={2}>
+                        <Grid xs display="flex" justifyContent="center" alignItems="center"><Typography variant="body1" gutterBottom>5</Typography></Grid>
+                        <Grid xs display="flex" justifyContent="center" alignItems="center"><TextField type="number" variant="outlined" /></Grid>
+                    </Grid>
+                </Box>
+                <Box sx={{ m: 2 }}>
+                    <Grid container spacing={2}>
+                        <Grid xs display="flex" justifyContent="center" alignItems="center"><Typography variant="body1" gutterBottom>10</Typography></Grid>
+                        <Grid xs display="flex" justifyContent="center" alignItems="center"><TextField type="number" variant="outlined" /></Grid>
+                    </Grid>
+                </Box>
             </CardContent>
             </Card>
             </Container>
