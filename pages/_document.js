@@ -1,5 +1,4 @@
 import { Html, Head, Main, NextScript } from 'next/document'
-import { plateCalculator } from '@/public/plate-calculator'
 
 export default function Document() {
     return (
