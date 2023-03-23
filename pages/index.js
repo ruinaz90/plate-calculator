@@ -19,18 +19,23 @@ export default function Home() {
     function handleChange(e) {
         const { value, checked } = e.target
         const plateVal = Number(value)
-        console.log(`${value} is ${checked}`)
 
         if(checked)
             setPlates([...plates, plateVal])
         else
             setPlates(plates.filter(element => element !== plateVal))
     }
-    console.log(plates)
-    const plateList = calculatePlate(weight, {set: plates})
-    console.log(plateList)
+    // console.log(plates)
+    // const plateList = calculatePlate(weight, {set: plates})
+    // console.log(plateList)
     //console.log(plateList.plates[0].plateWeight)
     //console.log(plateList.plates[0].qty)
+
+    function handleSubmit(e) {
+        e.preventDefault()
+        const plateList = calculatePlate(weight, {set: plates})
+        console.log(plateList)
+    }
 
     return (
         <>
@@ -48,8 +53,8 @@ export default function Home() {
                 <FormControlLabel control={<Checkbox defaultChecked />} label="25 lbs" onChange={handleChange} value="25" />
                 <FormControlLabel control={<Checkbox defaultChecked />} label="35 lbs" onChange={handleChange} value="35" />
                 <FormControlLabel control={<Checkbox defaultChecked />} label="45 lbs" onChange={handleChange} value="45" />
-                <TextField id="weight" label="Weight" variant="standard" />
-                <Button variant="contained">Calculate</Button>
+                <TextField id="weight" label="Weight" variant="standard" value={weight} onChange={(e) => setWeight(e.target.value)} />
+                <Button variant="contained" onClick={handleSubmit}>Calculate</Button>
             </FormGroup>
         </main>
         </>
