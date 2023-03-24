@@ -15,6 +15,8 @@ const inter = Inter({ subsets: ['latin'] })
 export default function Home() {
     const [plates, setPlates] = useState([5, 10, 25, 35, 45])
     const [weight, setWeight] = useState(45)
+    const [resultsWeight, setResultsWeight] = useState(45)
+    const [results, setResults] = useState("")
 
     function handleChange(e) {
         const { value, checked } = e.target
@@ -25,16 +27,15 @@ export default function Home() {
         else
             setPlates(plates.filter(element => element !== plateVal))
     }
-    // console.log(plates)
-    // const plateList = calculatePlate(weight, {set: plates})
-    // console.log(plateList)
-    //console.log(plateList.plates[0].plateWeight)
-    //console.log(plateList.plates[0].qty)
 
     function handleSubmit(e) {
         e.preventDefault()
         const plateList = calculatePlate(weight, {set: plates})
-        console.log(plateList)
+        setResultsWeight(plateList.closestWeight)
+        if(plateList.plates[0])
+            setResults(`${plateList.plates[0].plateWeight} lbs x ${plateList.plates[0].qty}`)
+        else
+            setResults("None")
     }
 
     return (
@@ -53,9 +54,15 @@ export default function Home() {
                 <FormControlLabel control={<Checkbox defaultChecked />} label="25 lbs" onChange={handleChange} value="25" />
                 <FormControlLabel control={<Checkbox defaultChecked />} label="35 lbs" onChange={handleChange} value="35" />
                 <FormControlLabel control={<Checkbox defaultChecked />} label="45 lbs" onChange={handleChange} value="45" />
-                <TextField id="weight" label="Weight" variant="standard" value={weight} onChange={(e) => setWeight(e.target.value)} />
+                <TextField sx={{ m: 1, width: '25ch' }} label="Weight (lbs)" variant="standard" type="number" value={weight} onChange={(e) => setWeight(e.target.value)} />
                 <Button variant="contained" onClick={handleSubmit}>Calculate</Button>
             </FormGroup>
+
+            <h2>Closest Weight</h2>
+            <p>{resultsWeight} lbs</p>
+            
+            <h2>Plates needed</h2>
+            <p>{results}</p>
         </main>
         </>
     )
