@@ -8,6 +8,7 @@ import FormControlLabel from '@mui/material/FormControlLabel'
 import Checkbox from '@mui/material/Checkbox'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
+import Typography from '@mui/material/Typography'
 import { useState } from 'react'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -16,7 +17,8 @@ export default function Home() {
     const [plates, setPlates] = useState([5, 10, 25, 35, 45])
     const [weight, setWeight] = useState(45)
     const [resultsWeight, setResultsWeight] = useState(45)
-    const [results, setResults] = useState("")
+    const [results, setResults] = useState([])
+    const [resultsQty, setResultsQty] = useState([])
 
     function handleChange(e) {
         const { value, checked } = e.target
@@ -32,10 +34,17 @@ export default function Home() {
         e.preventDefault()
         const plateList = calculatePlate(weight, {set: plates})
         setResultsWeight(plateList.closestWeight)
-        if(plateList.plates[0])
-            setResults(`${plateList.plates[0].plateWeight} lbs x ${plateList.plates[0].qty}`)
-        else
-            setResults("None")
+
+        if(plateList.plates[0]) {
+            let platesNeeded = plateList.plates.map(plate => plate.plateWeight)
+            let platesQty = plateList.plates.map(plate => plate.qty)
+            setResults(platesNeeded)
+            setResultsQty(platesQty)
+        }
+        else {
+            setResults([])
+            setResultsQty([])
+        }
     }
 
     return (
@@ -58,11 +67,11 @@ export default function Home() {
                 <Button variant="contained" onClick={handleSubmit}>Calculate</Button>
             </FormGroup>
 
-            <h2>Closest Weight</h2>
-            <p>{resultsWeight} lbs</p>
+            <Typography variant="h5">Closest weight</Typography>
+            <Typography variant="body1">{resultsWeight} lbs</Typography>
             
-            <h2>Plates needed</h2>
-            <p>{results}</p>
+            <Typography variant="h5">Plates needed</Typography>
+            <Typography variant="body1">{results.length ? results.map((element, index) => <li key={index}>{element} lbs x {resultsQty[index]}</li>) : "None"}</Typography>
         </main>
         </>
     )
