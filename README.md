@@ -7,7 +7,7 @@ Calculate the number of plates to put on a barbell to reach the target weight
 ## How to use
 Visit https://barbellplatecalc.netlify.app/ to use the app.
 
-For development, clone the repo run the development server:
+For development, clone the repo and run the development server:
 
 ```npm i```
 
